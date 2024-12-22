@@ -72,16 +72,8 @@ def process_transactions(csv_path: Path = typer.Option(DEFAULT_CSV_PATH, "--csv"
 
     # Read the CSV file with date parsing
     df = pd.read_csv(csv_path, parse_dates=['fecha'], dayfirst=True)
-    df['fecha'] = pd.to_datetime(df['fecha'], utc=True)
-
-    # Convert 'fecha' to local time zone
-    local_tz = pytz.timezone('America/Chicago')  # Replace with your local time zone
-    df['fecha'] = df['fecha'].dt.tz_convert(local_tz)
-
-    # Make 'fecha' timezone-unaware
-    df['fecha'] = df['fecha'].dt.tz_localize(None)
-
-    # Get the current date in the local time zone
+    df['fecha'] = pd.to_datetime(df['fecha'])
+    
     current_date = datetime.now()
 
     one_year_ago = current_date - timedelta(days=365)
